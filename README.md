@@ -7,40 +7,22 @@ Extends [tree-sitter-starlark](https://github.com/tree-sitter-grammars/tree-sitt
 
 ## Neovim
 
-### 1. Register the parser
+### 1. Install parser and queries
 
-Add the scampi entry to nvim-treesitter's parser list. In your plugin config:
-
-```lua
--- inside nvim-treesitter opts
-local parsers = require("nvim-treesitter.parsers")
-parsers.scampi = {
-  install_info = {
-    url = "https://github.com/scampi-dev/tree-sitter-scampi",
-    files = { "src/parser.c", "src/scanner.c" },
-    branch = "main",
-  },
-  tier = 3,
-}
-```
-
-### 2. Install parser and queries
-
-The parser compiles via `:TSInstall scampi`, but nvim-treesitter does not
-install queries for external parsers. Clone this repo and run:
+Clone this repo and run:
 
 ```sh
 just install
 ```
 
-This compiles the parser and copies queries to the right location
-(`~/.local/share/nvim/site/`). To remove:
+This compiles the parser and copies queries into Neovim's site directory.
+To remove:
 
 ```sh
 just uninstall
 ```
 
-### 3. Filetype and LSP
+### 2. Filetype and LSP
 
 Add to your Neovim config:
 
