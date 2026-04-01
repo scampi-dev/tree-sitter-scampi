@@ -1,0 +1,34 @@
+secrets(backend="age", path="secrets.age.json")
+
+target.rest(
+    name = "api",
+    base_url = "https://api.example.com",
+    auth = rest.bearer(
+        token_endpoint = "/tokens",
+        identity = secret("api.user"),
+        secret = secret("api.password"),
+    ),
+    tls = rest.tls.secure(),
+)
+
+cert = rest.resource(
+    desc = "wildcard certificate",
+    query = rest.request(
+        method = "GET",
+        path = "/certificates",
+        check = rest.jq(
+            expr = '.[] | select(.domain_names[] == "*.example.com")',
+        ),
+    ),
+    missing = rest.request(method = "POST", path = "/certificates"),
+    state = {
+        "domain_names": ["*.example.com"],
+        "provider": "letsencrypt",
+    },
+)
+
+deploy(
+    name = "certs",
+    targets = ["api"],
+    steps = [cert],
+)

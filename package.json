@@ -1,0 +1,23 @@
+{
+  "name": "tree-sitter-scampi",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for scampi configuration files (.scampi)",
+  "license": "MIT",
+  "keywords": [
+    "tree-sitter",
+    "scampi",
+    "starlark",
+    "parser"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://codeberg.org/scampi-dev/tree-sitter-scampi"
+  },
+  "dependencies": {
+    "tree-sitter-python": "^0.23.5",
+    "tree-sitter-starlark": "^1.3.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.24.4"
+  }
+}

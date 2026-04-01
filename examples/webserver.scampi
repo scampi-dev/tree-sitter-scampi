@@ -1,0 +1,27 @@
+target.ssh(name="web", host="app.example.com", user="deploy")
+
+deploy(
+    name = "webserver",
+    targets = ["web"],
+    steps = [
+        pkg(packages=["nginx", "certbot"], state="present", source=system()),
+        copy(
+            src = local("./nginx.conf"),
+            dest = "/etc/nginx/nginx.conf",
+            perm = "0644", owner = "root", group = "root",
+            on_change = "reload-nginx",
+        ),
+        template(
+            src = local("./vhost.conf.tmpl"),
+            dest = "/etc/nginx/sites-enabled/app.conf",
+            perm = "0644", owner = "root", group = "root",
+            data = {"domain": "app.example.com", "port": 3000},
+            on_change = "reload-nginx",
+        ),
+        service(name="nginx", state="running", enabled=True),
+        firewall(ports=["80/tcp", "443/tcp"], state="open"),
+    ],
+    hooks = {
+        "reload-nginx": service(name="nginx", state="reloaded"),
+    },
+)

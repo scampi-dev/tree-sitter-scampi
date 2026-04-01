@@ -1,0 +1,37 @@
+{
+  "grammars": [
+    {
+      "name": "scampi",
+      "camelcase": "Scampi",
+      "scope": "source.scampi",
+      "file-types": [
+        "scampi"
+      ],
+      "highlights": "queries/highlights.scm",
+      "tags": "queries/tags.scm",
+      "locals": "queries/locals.scm",
+      "injection-regex": "^scampi$"
+    }
+  ],
+  "metadata": {
+    "version": "0.1.0",
+    "license": "MIT",
+    "description": "Tree-sitter grammar for scampi configuration files",
+    "authors": [
+      {
+        "name": "Peter Skrypalle"
+      }
+    ],
+    "links": {
+      "repository": "https://codeberg.org/scampi-dev/tree-sitter-scampi"
+    }
+  },
+  "bindings": {
+    "c": true,
+    "go": true,
+    "node": true,
+    "python": true,
+    "rust": true,
+    "swift": true
+  }
+}

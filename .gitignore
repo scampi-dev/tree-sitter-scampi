@@ -1,0 +1,9 @@
+.*
+!.gitignore
+!.forgejo
+
+package-lock.json
+
+bindings/
+build/
+node_modules/
