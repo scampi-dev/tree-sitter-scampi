@@ -16,6 +16,22 @@ generate: setup
   sed 's/tree_sitter_python/tree_sitter_scampi/g' {{scanner_src}} > src/scanner.c
   @echo "Done. src/ is ready to commit."
 
+[doc("Compile parser .so and install into Neovim")]
+install:
+  cc -shared -o scampi.so -fPIC -I src src/parser.c src/scanner.c
+  mkdir -p ~/.local/share/nvim/site/parser
+  mkdir -p ~/.local/share/nvim/site/queries/scampi
+  cp scampi.so ~/.local/share/nvim/site/parser/scampi.so
+  cp queries/*.scm ~/.local/share/nvim/site/queries/scampi/
+  rm scampi.so
+  @echo "Installed. Restart Neovim."
+
+[doc("Remove parser and queries from Neovim")]
+uninstall:
+  rm -f ~/.local/share/nvim/site/parser/scampi.so
+  rm -rf ~/.local/share/nvim/site/queries/scampi
+  @echo "Uninstalled. Restart Neovim."
+
 [doc("Parse example files to verify the grammar")]
 test: generate
   npx tree-sitter parse examples/*.scampi

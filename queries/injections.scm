@@ -1,8 +1,8 @@
-((binary_operator
-  left: (string
-    (string_content) @injection.content)
-  operator: "%")
-  (#set! injection.language "printf"))
+((call
+  function: (attribute
+	  object: (identifier) @_re)
+  arguments: (argument_list (string) @regex))
+ (#eq? @_re "re")
+ (#match? @regex "^r.*"))
 
-((comment) @injection.content
-  (#set! injection.language "comment"))
+(comment) @comment
