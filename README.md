@@ -18,7 +18,7 @@ parsers.scampi = {
   install_info = {
     url = "https://github.com/scampi-dev/tree-sitter-scampi",
     files = { "src/parser.c", "src/scanner.c" },
-    revision = "be8984b",
+    branch = "main",
   },
   tier = 3,
 }
