@@ -3,28 +3,53 @@
 Tree-sitter grammar for [scampi](https://scampi.dev) configuration files (`.scampi`).
 
 Extends [tree-sitter-starlark](https://github.com/tree-sitter-grammars/tree-sitter-starlark)
-— same parser, different file extension. Builtin highlighting is handled by
-[scampls](https://scampi.dev/docs/lsp/) (the LSP server), not the grammar.
+— same parser, different file extension. Queries are from upstream starlark.
 
 ## Neovim
 
-Register the parser and install:
+### 1. Register the parser
+
+Add the scampi entry to nvim-treesitter's parser list. In your plugin config:
 
 ```lua
-local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-parser_config.scampi = {
+-- inside nvim-treesitter opts
+local parsers = require("nvim-treesitter.parsers")
+parsers.scampi = {
   install_info = {
-    url = "https://codeberg.org/scampi-dev/tree-sitter-scampi",
+    url = "https://github.com/scampi-dev/tree-sitter-scampi",
     files = { "src/parser.c", "src/scanner.c" },
-    branch = "main",
+    revision = "be8984b",
   },
-  filetype = "scampi",
+  tier = 3,
 }
 ```
 
-Then `:TSInstall scampi`.
+### 2. Install parser and queries
 
-You'll also want the filetype and LSP — see the
+The parser compiles via `:TSInstall scampi`, but nvim-treesitter does not
+install queries for external parsers. Clone this repo and run:
+
+```sh
+just install
+```
+
+This compiles the parser and copies queries to the right location
+(`~/.local/share/nvim/site/`). To remove:
+
+```sh
+just uninstall
+```
+
+### 3. Filetype and LSP
+
+Add to your Neovim config:
+
+```lua
+vim.filetype.add({ extension = { scampi = "scampi" } })
+vim.treesitter.language.register("scampi", "scampi")
+```
+
+For the LSP server (scampls), see the
 [editor setup docs](https://scampi.dev/docs/lsp/).
 
 ## Helix
@@ -45,6 +70,8 @@ name = "scampi"
 source = { git = "https://codeberg.org/scampi-dev/tree-sitter-scampi", rev = "main" }
 ```
 
+Copy `upstream/*.scm` to your Helix runtime queries directory for highlighting.
+
 ## For maintainers
 
 The `src/` directory is committed and consumed directly by editors.
@@ -59,4 +86,4 @@ Requires [just](https://just.systems) and Node.js.
 
 ## License
 
-MIT
+MIT — queries derived from [tree-sitter-starlark](https://github.com/tree-sitter-grammars/tree-sitter-starlark) (MIT).
