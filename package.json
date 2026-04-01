@@ -1,0 +1,23 @@
+{
+  "name": "tree-sitter-scampi",
+  "version": "0.1.0",
+  "description": "Tree-sitter grammar for scampi configuration files (.scampi)",
+  "license": "MIT",
+  "keywords": [
+    "tree-sitter",
+    "scampi",
+    "parser"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://codeberg.org/scampi-dev/tree-sitter-scampi"
+  },
+  "scripts": {
+    "lint": "eslint grammar.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "eslint-config-treesitter": "^1.0.2",
+    "tree-sitter-cli": "^0.26.0"
+  }
+}

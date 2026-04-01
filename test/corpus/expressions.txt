@@ -1,0 +1,388 @@
+================================================================================
+Nested selector expression
+================================================================================
+
+module main
+
+let x = posix.ServiceState.running
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (selector_expression
+      (selector_expression
+        (identifier)
+        (identifier))
+      (identifier))))
+
+================================================================================
+Index expression
+================================================================================
+
+module main
+
+let first = items[0]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (index_expression
+      (identifier)
+      (integer))))
+
+================================================================================
+Chained call and selector
+================================================================================
+
+module main
+
+let x = std.env("HOME")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (call_expression
+      (selector_expression
+        (identifier)
+        (identifier))
+      (argument_list
+        (string
+          (string_content))))))
+
+================================================================================
+Call with keyword arguments
+================================================================================
+
+module main
+
+let d = std.deploy(name = "site", targets = [vps])
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (call_expression
+      (selector_expression
+        (identifier)
+        (identifier))
+      (argument_list
+        (keyword_argument
+          (identifier)
+          (string
+            (string_content)))
+        (keyword_argument
+          (identifier)
+          (list_literal
+            (identifier)))))))
+
+================================================================================
+Unary not
+================================================================================
+
+module main
+
+let x = !enabled
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (unary_expression
+      (identifier))))
+
+================================================================================
+Unary minus
+================================================================================
+
+module main
+
+let x = -1
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (unary_expression
+      (integer))))
+
+================================================================================
+Comparison operators
+================================================================================
+
+module main
+
+let a = x == 1
+let b = x != 2
+let c = x < 3
+let d = x > 4
+let e = x <= 5
+let f = x >= 6
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (integer)))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (integer)))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (integer)))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (integer)))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (integer)))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (integer))))
+
+================================================================================
+In operator
+================================================================================
+
+module main
+
+let x = "wheel" in groups
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (string
+        (string_content))
+      (identifier))))
+
+================================================================================
+Parenthesized expression
+================================================================================
+
+module main
+
+let x = (a + b) * c
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (parenthesized_expression
+        (binary_expression
+          (identifier)
+          (identifier)))
+      (identifier))))
+
+================================================================================
+Integer literal formats
+================================================================================
+
+module main
+
+let dec = 42
+let hex = 0xFF
+let bin = 0b1010
+let oct = 0o755
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (integer))
+  (let_declaration
+    (identifier)
+    (integer))
+  (let_declaration
+    (identifier)
+    (integer))
+  (let_declaration
+    (identifier)
+    (integer)))
+
+================================================================================
+If expression (ternary)
+================================================================================
+
+module main
+
+let shell = if admin { "/bin/zsh" } else { "/bin/bash" }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (if_expression
+      (identifier)
+      (string
+        (string_content))
+      (string
+        (string_content)))))
+
+================================================================================
+If expression with comparison condition
+================================================================================
+
+module main
+
+let x = if len(items) > 0 { items[0] } else { none }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (if_expression
+      (binary_expression
+        (call_expression
+          (identifier)
+          (argument_list
+            (identifier)))
+        (integer))
+      (index_expression
+        (identifier)
+        (integer))
+      (none))))
+
+================================================================================
+Map comprehension
+================================================================================
+
+module main
+
+let m = {u.name: u.shell for u in users}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (map_comprehension
+      (selector_expression
+        (identifier)
+        (identifier))
+      (selector_expression
+        (identifier)
+        (identifier))
+      (identifier)
+      (identifier))))
+
+================================================================================
+List comprehension with filter
+================================================================================
+
+module main
+
+let admins = [u.name for u in users if u.admin]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (list_comprehension
+      (selector_expression
+        (identifier)
+        (identifier))
+      (identifier)
+      (identifier)
+      (selector_expression
+        (identifier)
+        (identifier)))))
+
+================================================================================
+Block expression (deploy)
+================================================================================
+
+module main
+
+std.deploy(name = "web", targets = [vps]) {
+  posix.pkg { packages = ["nginx"] }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (block_expression
+      (call_expression
+        (selector_expression
+          (identifier)
+          (identifier))
+        (argument_list
+          (keyword_argument
+            (identifier)
+            (string
+              (string_content)))
+          (keyword_argument
+            (identifier)
+            (list_literal
+              (identifier)))))
+      (block
+        (expression_statement
+          (struct_literal
+            (dotted_name
+              (identifier)
+              (identifier))
+            (field_initializer
+              (identifier)
+              (list_literal
+                (string
+                  (string_content))))))))))

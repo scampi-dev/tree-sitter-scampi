@@ -1,0 +1,234 @@
+================================================================================
+Opaque type (no body)
+================================================================================
+
+module main
+
+type Step
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (type_declaration
+    (identifier)))
+
+================================================================================
+Func stub (no body)
+================================================================================
+
+module main
+
+func deploy(name: string, targets: list[Target]) block[Deploy]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (func_declaration
+    (identifier)
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (identifier)
+        (generic_type
+          (identifier)
+          (named_type
+            (dotted_name
+              (identifier))))))
+    (generic_type
+      (identifier)
+      (named_type
+        (dotted_name
+          (identifier))))))
+
+================================================================================
+Decl stub with dotted name
+================================================================================
+
+module main
+
+decl posix.copy(src: Source, dest: string) Step
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (decl_declaration
+    (dotted_name
+      (identifier)
+      (identifier))
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))))
+
+================================================================================
+Decl with body and self
+================================================================================
+
+module main
+
+decl create_user(name: string) Step {
+  posix.user { name = self.name }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (decl_declaration
+    (dotted_name
+      (identifier))
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))
+    (block
+      (expression_statement
+        (struct_literal
+          (dotted_name
+            (identifier)
+            (identifier))
+          (field_initializer
+            (identifier)
+            (selector_expression
+              (self)
+              (identifier))))))))
+
+================================================================================
+Enum multiline
+================================================================================
+
+module main
+
+enum ServiceState {
+  running
+  stopped
+  restarted
+  reloaded
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (enum_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)))
+
+================================================================================
+Let with optional type annotation
+================================================================================
+
+module main
+
+let shell: string? = none
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (optional_type
+      (named_type
+        (dotted_name
+          (identifier))))
+    (none)))
+
+================================================================================
+Func with generic return type
+================================================================================
+
+module main
+
+func packages(extra: list[string] = []) list[string] {
+  return ["curl"] + extra
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (func_declaration
+    (identifier)
+    (parameter_list
+      (field_definition
+        (identifier)
+        (generic_type
+          (identifier)
+          (named_type
+            (dotted_name
+              (identifier))))
+        (list_literal)))
+    (generic_type
+      (identifier)
+      (named_type
+        (dotted_name
+          (identifier))))
+    (block
+      (return_statement
+        (binary_expression
+          (list_literal
+            (string
+              (string_content)))
+          (identifier))))))
+
+================================================================================
+Multiple imports
+================================================================================
+
+module main
+
+import "std"
+import "std/posix"
+import "std/container"
+import "codeberg.org/scampi-dev/modules/unifi"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (import_declaration
+    (string
+      (string_content)))
+  (import_declaration
+    (string
+      (string_content)))
+  (import_declaration
+    (string
+      (string_content)))
+  (import_declaration
+    (string
+      (string_content))))

@@ -1,0 +1,57 @@
+module main
+
+import "std"
+import "std/posix"
+
+# Type declarations
+type User {
+  name:   string
+  groups: list[string] = []
+  shell:  string = "/bin/bash"
+  admin:  bool = false
+}
+
+enum PkgState { present, absent, latest }
+
+# Function with return type
+func base_packages(extra: list[string] = []) list[string] {
+  let base = ["curl", "htop", "vim", "tmux"]
+  return base + extra
+}
+
+# User-defined decl
+decl create_user(name: string, shell: string = "/bin/bash") std.Step {
+  posix.user { name = self.name, shell = self.shell }
+}
+
+# Data
+let users = [
+  User { name = "alice", groups = ["sudo", "docker"], admin = true },
+  User { name = "bob", groups = ["docker"], shell = "/bin/zsh" },
+  User { name = "charlie" },
+]
+
+# Comprehensions
+let admins = [u.name for u in users if u.admin]
+let shell_map = {u.name: u.shell for u in users}
+
+# Conditional expression
+let extra = if len(admins) > 0 { ["sudo"] } else { [] }
+
+# String interpolation
+let version = "1.2.3"
+let url = "https://example.com/v${version}/app.tar.gz"
+
+let vps = posix.ssh { name = "vps", host = "10.0.0.1", user = "root" }
+
+std.deploy(name = "users", targets = [vps]) {
+  for u in users {
+    create_user { name = u.name, shell = u.shell }
+  }
+
+  posix.pkg {
+    packages = base_packages(extra = extra)
+    source = posix.pkg_system {}
+    state = PkgState.present
+  }
+}

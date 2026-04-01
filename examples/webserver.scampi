@@ -1,0 +1,47 @@
+module main
+
+import "std"
+import "std/posix"
+
+std.secrets { backend = std.SecretsBackend.age, path = "secrets.age.json" }
+
+let vps = posix.ssh {
+  name = "vps"
+  host = std.secret("vps.host")
+  user = "deploy"
+}
+
+std.deploy(name = "webserver", targets = [vps]) {
+  let reload_nginx = posix.service {
+    name = "nginx"
+    state = posix.ServiceState.reloaded
+  }
+
+  posix.pkg {
+    packages = ["nginx", "certbot"]
+    source = posix.pkg_system {}
+  }
+
+  posix.copy {
+    src = posix.source_local { path = "./nginx.conf" }
+    dest = "/etc/nginx/nginx.conf"
+    perm = "0644"
+    owner = "root"
+    group = "root"
+    on_change = [reload_nginx]
+  }
+
+  posix.template {
+    src = posix.source_local { path = "./vhost.conf.tmpl" }
+    dest = "/etc/nginx/sites-enabled/app.conf"
+    perm = "0644"
+    owner = "root"
+    group = "root"
+    data = {"domain": "app.example.com", "port": 3000}
+    on_change = [reload_nginx]
+  }
+
+  posix.service { name = "nginx", state = posix.ServiceState.running, enabled = true }
+  posix.firewall { port = "80/tcp" }
+  posix.firewall { port = "443/tcp" }
+}

@@ -1,0 +1,154 @@
+================================================================================
+Simple string
+================================================================================
+
+module main
+
+let x = "hello world"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content))))
+
+================================================================================
+Empty string
+================================================================================
+
+module main
+
+let x = ""
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string)))
+
+================================================================================
+String with escape sequences
+================================================================================
+
+module main
+
+let x = "line1\nline2\ttab\\backslash\"quote\$dollar\0null"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content)
+      (escape_sequence)
+      (string_content))))
+
+================================================================================
+String interpolation simple
+================================================================================
+
+module main
+
+let x = "hello ${name}"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content)
+      (interpolation
+        (identifier)))))
+
+================================================================================
+String interpolation complex expression
+================================================================================
+
+module main
+
+let x = "result: ${a + b}"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content)
+      (interpolation
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+String with multiple interpolations
+================================================================================
+
+module main
+
+let x = "${proto}://${host}:${port}"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (interpolation
+        (identifier))
+      (string_content)
+      (interpolation
+        (identifier))
+      (string_content)
+      (interpolation
+        (identifier)))))
+
+================================================================================
+String interpolation with selector
+================================================================================
+
+module main
+
+let url = "https://example.com/v${pkg.version}/app.tar.gz"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content)
+      (interpolation
+        (selector_expression
+          (identifier)
+          (identifier)))
+      (string_content))))

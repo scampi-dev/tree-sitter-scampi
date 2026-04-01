@@ -1,0 +1,207 @@
+================================================================================
+Empty list
+================================================================================
+
+module main
+
+let x = []
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (list_literal)))
+
+================================================================================
+Empty braces (parses as struct literal)
+================================================================================
+
+module main
+
+let x = {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (struct_literal)))
+
+================================================================================
+Nested map
+================================================================================
+
+module main
+
+let m = {
+  "name": "test",
+  "nested": {
+    "key": "value",
+    "num": 42,
+  },
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (map_literal
+      (map_entry
+        (string
+          (string_content))
+        (string
+          (string_content)))
+      (map_entry
+        (string
+          (string_content))
+        (map_literal
+          (map_entry
+            (string
+              (string_content))
+            (string
+              (string_content)))
+          (map_entry
+            (string
+              (string_content))
+            (integer)))))))
+
+================================================================================
+Struct literal bare (inferred type)
+================================================================================
+
+module main
+
+let x = { name = "alice", admin = true }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (struct_literal
+      (field_initializer
+        (identifier)
+        (string
+          (string_content)))
+      (field_initializer
+        (identifier)
+        (true)))))
+
+================================================================================
+Struct literal with dotted type
+================================================================================
+
+module main
+
+posix.pkg_apt_repo {
+  url = "https://download.docker.com/linux/debian"
+  key_url = "https://download.docker.com/linux/debian/gpg"
+  components = ["stable"]
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (struct_literal
+      (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        (identifier)
+        (string
+          (string_content)))
+      (field_initializer
+        (identifier)
+        (string
+          (string_content)))
+      (field_initializer
+        (identifier)
+        (list_literal
+          (string
+            (string_content)))))))
+
+================================================================================
+Struct with nested struct values
+================================================================================
+
+module main
+
+posix.copy {
+  src = posix.source_local { path = "./nginx.conf" }
+  dest = "/etc/nginx/nginx.conf"
+  perm = "0644"
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (struct_literal
+      (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        (identifier)
+        (struct_literal
+          (dotted_name
+            (identifier)
+            (identifier))
+          (field_initializer
+            (identifier)
+            (string
+              (string_content)))))
+      (field_initializer
+        (identifier)
+        (string
+          (string_content)))
+      (field_initializer
+        (identifier)
+        (string
+          (string_content))))))
+
+================================================================================
+Trailing commas everywhere
+================================================================================
+
+module main
+
+let xs = [1, 2, 3,]
+let m = {"a": 1, "b": 2,}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (list_literal
+      (integer)
+      (integer)
+      (integer)))
+  (let_declaration
+    (identifier)
+    (map_literal
+      (map_entry
+        (string
+          (string_content))
+        (integer))
+      (map_entry
+        (string
+          (string_content))
+        (integer)))))

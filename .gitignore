@@ -1,0 +1,8 @@
+.*
+!.gitignore
+!.forgejo
+!.github
+
+bindings/
+build/
+node_modules/

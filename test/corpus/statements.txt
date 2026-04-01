@@ -1,0 +1,215 @@
+================================================================================
+For loop with struct body
+================================================================================
+
+module main
+
+for u in users {
+  posix.user { name = u.name, shell = u.shell }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (expression_statement
+        (struct_literal
+          (dotted_name
+            (identifier)
+            (identifier))
+          (field_initializer
+            (identifier)
+            (selector_expression
+              (identifier)
+              (identifier)))
+          (field_initializer
+            (identifier)
+            (selector_expression
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+If-else if chain
+================================================================================
+
+module main
+
+if a {
+  return 1
+} else if b {
+  return 2
+} else {
+  return 3
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (if_statement
+    (identifier)
+    (block
+      (return_statement
+        (integer)))
+    (else_clause
+      (if_statement
+        (identifier)
+        (block
+          (return_statement
+            (integer)))
+        (else_clause
+          (block
+            (return_statement
+              (integer))))))))
+
+================================================================================
+Return without value
+================================================================================
+
+module main
+
+func noop() int {
+  return
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (func_declaration
+    (identifier)
+    (parameter_list)
+    (named_type
+      (dotted_name
+        (identifier)))
+    (block
+      (return_statement))))
+
+================================================================================
+Nested for loops
+================================================================================
+
+module main
+
+for g in groups {
+  for u in g.members {
+    posix.user { name = u }
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (for_statement
+        (identifier)
+        (selector_expression
+          (identifier)
+          (identifier))
+        (block
+          (expression_statement
+            (struct_literal
+              (dotted_name
+                (identifier)
+                (identifier))
+              (field_initializer
+                (identifier)
+                (identifier)))))))))
+
+================================================================================
+Let inside block
+================================================================================
+
+module main
+
+std.deploy(name = "x", targets = [t]) {
+  let restart = posix.service { name = "sshd" }
+  posix.pkg { packages = ["nginx"] }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (block_expression
+      (call_expression
+        (selector_expression
+          (identifier)
+          (identifier))
+        (argument_list
+          (keyword_argument
+            (identifier)
+            (string
+              (string_content)))
+          (keyword_argument
+            (identifier)
+            (list_literal
+              (identifier)))))
+      (block
+        (let_declaration
+          (identifier)
+          (struct_literal
+            (dotted_name
+              (identifier)
+              (identifier))
+            (field_initializer
+              (identifier)
+              (string
+                (string_content)))))
+        (expression_statement
+          (struct_literal
+            (dotted_name
+              (identifier)
+              (identifier))
+            (field_initializer
+              (identifier)
+              (list_literal
+                (string
+                  (string_content))))))))))
+
+================================================================================
+Assignment to index
+================================================================================
+
+module main
+
+func mutate() int {
+  items[0] = 42
+  return items[0]
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (func_declaration
+    (identifier)
+    (parameter_list)
+    (named_type
+      (dotted_name
+        (identifier)))
+    (block
+      (assignment_statement
+        (index_expression
+          (identifier)
+          (integer))
+        (integer))
+      (return_statement
+        (index_expression
+          (identifier)
+          (integer))))))

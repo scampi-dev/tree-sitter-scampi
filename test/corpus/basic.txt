@@ -1,0 +1,528 @@
+================================================================================
+Module declaration
+================================================================================
+
+module main
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier)))
+
+================================================================================
+Import declaration
+================================================================================
+
+module main
+
+import "std"
+import "std/posix"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (import_declaration
+    (string
+      (string_content)))
+  (import_declaration
+    (string
+      (string_content))))
+
+================================================================================
+Let binding
+================================================================================
+
+module main
+
+let x = 42
+let name = "hello"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (integer))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content))))
+
+================================================================================
+Let with type annotation
+================================================================================
+
+module main
+
+let x: int = 42
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (named_type
+      (dotted_name
+        (identifier)))
+    (integer)))
+
+================================================================================
+Type declaration
+================================================================================
+
+module main
+
+type User {
+  name: string
+  groups: list[string] = []
+  shell: string = "/bin/bash"
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (type_declaration
+    (identifier)
+    (type_body
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (identifier)
+        (generic_type
+          (identifier)
+          (named_type
+            (dotted_name
+              (identifier))))
+        (list_literal))
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))
+        (string
+          (string_content))))))
+
+================================================================================
+Enum declaration
+================================================================================
+
+module main
+
+enum PkgState { present, absent, latest }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (enum_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)))
+
+================================================================================
+Function declaration
+================================================================================
+
+module main
+
+func add(a: int, b: int) int {
+  return a + b
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (func_declaration
+    (identifier)
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))
+    (block
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier))))))
+
+================================================================================
+Decl declaration
+================================================================================
+
+module main
+
+decl posix.pkg(packages: list[string], source: PkgSource) Step
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (decl_declaration
+    (dotted_name
+      (identifier)
+      (identifier))
+    (parameter_list
+      (field_definition
+        (identifier)
+        (generic_type
+          (identifier)
+          (named_type
+            (dotted_name
+              (identifier)))))
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))))
+
+================================================================================
+Struct literal with type
+================================================================================
+
+module main
+
+let u = User { name = "alice", admin = true }
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (struct_literal
+      (dotted_name
+        (identifier))
+      (field_initializer
+        (identifier)
+        (string
+          (string_content)))
+      (field_initializer
+        (identifier)
+        (true)))))
+
+================================================================================
+Map literal
+================================================================================
+
+module main
+
+let m = {"key": "value", "num": 42}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (map_literal
+      (map_entry
+        (string
+          (string_content))
+        (string
+          (string_content)))
+      (map_entry
+        (string
+          (string_content))
+        (integer)))))
+
+================================================================================
+List literal
+================================================================================
+
+module main
+
+let xs = [1, 2, 3]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (list_literal
+      (integer)
+      (integer)
+      (integer))))
+
+================================================================================
+String interpolation
+================================================================================
+
+module main
+
+let url = "https://example.com/v${version}/app"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content)
+      (interpolation
+        (identifier))
+      (string_content))))
+
+================================================================================
+Call expression
+================================================================================
+
+module main
+
+let x = len(items)
+let y = std.env("HOME")
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (call_expression
+      (identifier)
+      (argument_list
+        (identifier))))
+  (let_declaration
+    (identifier)
+    (call_expression
+      (selector_expression
+        (identifier)
+        (identifier))
+      (argument_list
+        (string
+          (string_content))))))
+
+================================================================================
+For statement
+================================================================================
+
+module main
+
+for u in users {
+  create_user { name = u.name }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (for_statement
+    (identifier)
+    (identifier)
+    (block
+      (expression_statement
+        (struct_literal
+          (dotted_name
+            (identifier))
+          (field_initializer
+            (identifier)
+            (selector_expression
+              (identifier)
+              (identifier))))))))
+
+================================================================================
+If statement with else
+================================================================================
+
+module main
+
+if enabled {
+  posix.firewall { port = "80/tcp" }
+} else {
+  posix.firewall { port = "443/tcp" }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (if_expression
+      (identifier)
+      (struct_literal
+        (dotted_name
+          (identifier)
+          (identifier))
+        (field_initializer
+          (identifier)
+          (string
+            (string_content))))
+      (struct_literal
+        (dotted_name
+          (identifier)
+          (identifier))
+        (field_initializer
+          (identifier)
+          (string
+            (string_content)))))))
+
+================================================================================
+List comprehension
+================================================================================
+
+module main
+
+let doubled = [x * 2 for x in xs]
+let evens = [x for x in xs if x % 2 == 0]
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (list_comprehension
+      (binary_expression
+        (identifier)
+        (integer))
+      (identifier)
+      (identifier)))
+  (let_declaration
+    (identifier)
+    (list_comprehension
+      (identifier)
+      (identifier)
+      (identifier)
+      (binary_expression
+        (binary_expression
+          (identifier)
+          (integer))
+        (integer)))))
+
+================================================================================
+Boolean and none literals
+================================================================================
+
+module main
+
+let a = true
+let b = false
+let c = none
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (true))
+  (let_declaration
+    (identifier)
+    (false))
+  (let_declaration
+    (identifier)
+    (none)))
+
+================================================================================
+Comments
+================================================================================
+
+module main
+
+# This is a comment
+let x = 42  # trailing comment
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (comment)
+  (let_declaration
+    (identifier)
+    (integer))
+  (comment))
+
+================================================================================
+Binary expressions with precedence
+================================================================================
+
+module main
+
+let x = a + b * c
+let y = a && b || c
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (identifier)
+      (binary_expression
+        (identifier)
+        (identifier))))
+  (let_declaration
+    (identifier)
+    (binary_expression
+      (binary_expression
+        (identifier)
+        (identifier))
+      (identifier))))
+
+================================================================================
+Optional type
+================================================================================
+
+module main
+
+type Config {
+  shell: string? = none
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (type_declaration
+    (identifier)
+    (type_body
+      (field_definition
+        (identifier)
+        (optional_type
+          (named_type
+            (dotted_name
+              (identifier))))
+        (none)))))
