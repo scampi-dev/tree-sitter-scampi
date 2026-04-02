@@ -17,7 +17,6 @@ vim.api.nvim_create_autocmd("User", {
     require("nvim-treesitter.parsers").scampi = {
       install_info = {
         url = "https://github.com/scampi-dev/tree-sitter-scampi",
-        files = { "src/parser.c", "src/scanner.c" },
         revision = "v0.1.0",
         queries = "queries",
       },
