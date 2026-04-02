@@ -3,56 +3,48 @@
 Tree-sitter grammar for [scampi](https://scampi.dev) configuration files (`.scampi`).
 
 Extends [tree-sitter-starlark](https://github.com/tree-sitter-grammars/tree-sitter-starlark)
-— same parser, different file extension. Queries are from upstream starlark.
+— same parser, different file extension. Queries inherit from starlark.
 
-## Neovim
-
-### 1. Install parser and queries
-
-Clone this repo and run:
-
-```sh
-just install
-```
-
-This compiles the parser and copies queries into Neovim's site directory.
-To remove:
-
-```sh
-just uninstall
-```
-
-### 2. Filetype and LSP
+## Neovim (nvim-treesitter)
 
 Add to your Neovim config:
 
 ```lua
+-- Register the scampi parser (not yet upstream in nvim-treesitter)
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TSUpdate",
+  callback = function()
+    require("nvim-treesitter.parsers").scampi = {
+      install_info = {
+        url = "https://github.com/scampi-dev/tree-sitter-scampi",
+        files = { "src/parser.c", "src/scanner.c" },
+        revision = "v0.1.0",
+        queries = "queries",
+      },
+      requires = { "starlark" },
+    }
+  end,
+})
+
+-- Register filetype and language
 vim.filetype.add({ extension = { scampi = "scampi" } })
 vim.treesitter.language.register("scampi", "scampi")
 ```
 
+Add `"scampi"` to your `ensure_installed` list in nvim-treesitter opts.
+The parser and its starlark dependency install automatically.
+
 For the LSP server (scampls), see the
 [editor setup docs](https://scampi.dev/docs/lsp/).
 
-## Helix
+## Manual install
 
-Add to `languages.toml`:
+If nvim-treesitter doesn't work for your setup, clone this repo and run:
 
-```toml
-[[language]]
-name = "scampi"
-scope = "source.scampi"
-file-types = ["scampi"]
-roots = ["scampi.mod"]
-comment-token = "#"
-indent = { tab-width = 4, unit = "    " }
-
-[[grammar]]
-name = "scampi"
-source = { git = "https://codeberg.org/scampi-dev/tree-sitter-scampi", rev = "main" }
+```sh
+just install    # compiles parser .so + copies queries into Neovim
+just uninstall  # removes both
 ```
-
-Copy `upstream/*.scm` to your Helix runtime queries directory for highlighting.
 
 ## For maintainers
 
