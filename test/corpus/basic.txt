@@ -1,0 +1,129 @@
+================================================================================
+Target declaration
+================================================================================
+
+target.local(name="local")
+
+--------------------------------------------------------------------------------
+
+(module
+  (expression_statement
+    (call
+      function: (attribute
+        object: (identifier)
+        attribute: (identifier))
+      arguments: (argument_list
+        (keyword_argument
+          name: (identifier)
+          value: (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
+
+================================================================================
+Deploy block
+================================================================================
+
+deploy(
+    name = "test",
+    targets = ["local"],
+    steps = [],
+)
+
+--------------------------------------------------------------------------------
+
+(module
+  (expression_statement
+    (call
+      function: (identifier)
+      arguments: (argument_list
+        (keyword_argument
+          name: (identifier)
+          value: (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword_argument
+          name: (identifier)
+          value: (list
+            (string
+              (string_start)
+              (string_content)
+              (string_end))))
+        (keyword_argument
+          name: (identifier)
+          value: (list))))))
+
+================================================================================
+Step with kwargs
+================================================================================
+
+dir(path="/tmp/foo", perm="0755")
+
+--------------------------------------------------------------------------------
+
+(module
+  (expression_statement
+    (call
+      function: (identifier)
+      arguments: (argument_list
+        (keyword_argument
+          name: (identifier)
+          value: (string
+            (string_start)
+            (string_content)
+            (string_end)))
+        (keyword_argument
+          name: (identifier)
+          value: (string
+            (string_start)
+            (string_content)
+            (string_end)))))))
+
+================================================================================
+Function definition
+================================================================================
+
+def network(name, vlan_id):
+    return rest.resource(name = name)
+
+--------------------------------------------------------------------------------
+
+(module
+  (function_definition
+    name: (identifier)
+    parameters: (parameters
+      (identifier)
+      (identifier))
+    body: (block
+      (return_statement
+        (call
+          function: (attribute
+            object: (identifier)
+            attribute: (identifier))
+          arguments: (argument_list
+            (keyword_argument
+              name: (identifier)
+              value: (identifier))))))))
+
+================================================================================
+Load statement
+================================================================================
+
+load("api.scampi", "get_networks")
+
+--------------------------------------------------------------------------------
+
+(module
+  (expression_statement
+    (call
+      function: (identifier)
+      arguments: (argument_list
+        (string
+          (string_start)
+          (string_content)
+          (string_end))
+        (string
+          (string_start)
+          (string_content)
+          (string_end))))))

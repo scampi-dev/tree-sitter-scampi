@@ -1,6 +1,7 @@
 .*
 !.gitignore
 !.forgejo
+!.github
 
 package-lock.json
 
