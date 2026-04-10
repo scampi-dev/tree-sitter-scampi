@@ -19,7 +19,7 @@ module.exports = grammar({
     // The inner expression in an if_expression looks like an expression_statement.
     [$.expression_statement, $.if_expression],
     // `{ ident =` can start struct_literal or map_literal at expression position.
-    [$.struct_literal, $.map_literal],
+    [$._anon_struct_literal, $.map_literal],
     // `identifier {` could be expression + block or dotted_name for struct_literal.
     [$._expression, $.dotted_name],
     // if/for conditions use _non_struct_expression; identifier could start dotted_name.
@@ -323,8 +323,28 @@ module.exports = grammar({
       $.block,
     )),
 
-    struct_literal: $ => seq(
-      optional(field('type', $.dotted_name)),
+    // struct_literal has two forms:
+    //   typed: TypeName { field = val, ... }
+    //   anon:  { field = val, ... }
+    //
+    // The typed form uses prec.dynamic to win against the alternative
+    // parse where `TypeName` becomes a selector_expression and `{ ... }`
+    // a new anonymous struct_literal in a separate expression_statement.
+    // Without dynamic precedence, the parser flip-flops based on whether
+    // a comment (or other extras token) sits between TypeName and `{`.
+    struct_literal: $ => choice(
+      $._typed_struct_literal,
+      $._anon_struct_literal,
+    ),
+
+    _typed_struct_literal: $ => prec.dynamic(1, seq(
+      field('type', $.dotted_name),
+      '{',
+      sepTrailing(choice($.field_initializer, $._statement, $._declaration)),
+      '}',
+    )),
+
+    _anon_struct_literal: $ => seq(
       '{',
       sepTrailing(choice($.field_initializer, $._statement, $._declaration)),
       '}',

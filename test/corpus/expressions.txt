@@ -386,3 +386,218 @@ std.deploy(name = "web", targets = [vps]) {
               (list_literal
                 (string
                   (string_content))))))))))
+
+================================================================================
+Let decl followed by multi-line bare struct literal (harden.scampi shape)
+================================================================================
+
+module main
+
+std.deploy(name = "harden", targets = [vps]) {
+  let a = posix.service { name = "a" }
+  let b = posix.service { name = "b" }
+
+  // Packages
+  posix.pkg {
+    desc = "x"
+    packages = ["y"]
+    source = posix.pkg_system {}
+  }
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (block_expression
+      target: (call_expression
+        function: (selector_expression
+          object: (identifier)
+          field: (identifier))
+        (argument_list
+          (keyword_argument
+            name: (identifier)
+            value: (string
+              (string_content)))
+          (keyword_argument
+            name: (identifier)
+            value: (list_literal
+              (identifier)))))
+      (block
+        (let_declaration
+          (identifier)
+          (struct_literal
+            type: (dotted_name
+              (identifier)
+              (identifier))
+            (field_initializer
+              name: (identifier)
+              value: (string
+                (string_content)))))
+        (let_declaration
+          (identifier)
+          (struct_literal
+            type: (dotted_name
+              (identifier)
+              (identifier))
+            (field_initializer
+              name: (identifier)
+              value: (string
+                (string_content)))))
+        (comment)
+        (expression_statement
+          (struct_literal
+            type: (dotted_name
+              (identifier)
+              (identifier))
+            (field_initializer
+              name: (identifier)
+              value: (string
+                (string_content)))
+            (field_initializer
+              name: (identifier)
+              value: (list_literal
+                (string
+                  (string_content))))
+            (field_initializer
+              name: (identifier)
+              value: (struct_literal
+                type: (dotted_name
+                  (identifier)
+                  (identifier))))))))))
+
+================================================================================
+Multi-line struct literal with type (no commas)
+================================================================================
+
+module main
+
+posix.copy {
+  src = "files/nginx.conf"
+  dest = "/etc/nginx/nginx.conf"
+  owner = "root"
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (struct_literal
+      type: (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content))))))
+
+================================================================================
+Multi-line struct literal with type (with commas)
+================================================================================
+
+module main
+
+posix.copy {
+  src = "files/nginx.conf",
+  dest = "/etc/nginx/nginx.conf",
+  owner = "root",
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (struct_literal
+      type: (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content))))))
+
+================================================================================
+Repeated multi-line struct literals
+================================================================================
+
+module main
+
+posix.firewall {
+  port = "22/tcp",
+  desc = "allow SSH",
+}
+posix.firewall {
+  port = "80/tcp",
+  desc = "allow HTTP",
+}
+posix.firewall {
+  port = "443/tcp",
+  desc = "allow HTTPS",
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (expression_statement
+    (struct_literal
+      type: (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))))
+  (expression_statement
+    (struct_literal
+      type: (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))))
+  (expression_statement
+    (struct_literal
+      type: (dotted_name
+        (identifier)
+        (identifier))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content)))
+      (field_initializer
+        name: (identifier)
+        value: (string
+          (string_content))))))
