@@ -49,6 +49,10 @@
 (type_declaration
   (identifier) @type.definition)
 
+(attribute_type_declaration
+  "@" @attribute
+  (identifier) @attribute)
+
 (enum_declaration
   (identifier) @type.definition)
 
@@ -60,6 +64,15 @@
 
 (let_declaration
   (identifier) @variable)
+
+; Attributes (prefix annotations on field definitions)
+(attribute
+  "@" @attribute
+  (dotted_name
+    (identifier) @attribute))
+
+(attribute_named_argument
+  name: (identifier) @property)
 
 ; Fields and parameters
 (field_definition

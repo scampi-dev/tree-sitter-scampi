@@ -70,6 +70,7 @@ module.exports = grammar({
 
     _declaration: $ => choice(
       $.type_declaration,
+      $.attribute_type_declaration,
       $.enum_declaration,
       $.func_declaration,
       $.decl_declaration,
@@ -85,6 +86,23 @@ module.exports = grammar({
       $.identifier,
       optional($.type_body),
     )),
+
+    // Attribute type declaration: `type @name { fields }`. Lives in
+    // a separate `@`-prefixed namespace from regular types and is
+    // consumed only as `@name(args)` decorations on annotatable
+    // positions. Markers have an empty body: `type @marker {}`.
+    attribute_type_declaration: $ => seq(
+      'type',
+      '@',
+      $.identifier,
+      $.attribute_type_body,
+    ),
+
+    attribute_type_body: $ => seq(
+      '{',
+      sepTrailing($.field_definition),
+      '}',
+    ),
 
     type_body: $ => seq(
       '{',
@@ -135,10 +153,35 @@ module.exports = grammar({
     ),
 
     field_definition: $ => seq(
+      repeat($.attribute),
       $.identifier,
       ':',
       $._type_expression,
       optional(seq('=', $._expression)),
+    ),
+
+    // Attribute: prefix annotation on a Field, e.g. `@nonempty`,
+    // `@since("0.5")`, `@path(absolute=true, on=remote)`. Resolves
+    // through the `@`-namespaced scope to an `attribute_type_declaration`.
+    attribute: $ => seq(
+      '@',
+      $.dotted_name,
+      optional($.attribute_arguments),
+    ),
+
+    attribute_arguments: $ => seq(
+      '(',
+      commaSepTrailing(choice(
+        $.attribute_named_argument,
+        $._expression,
+      )),
+      ')',
+    ),
+
+    attribute_named_argument: $ => seq(
+      field('name', $.identifier),
+      '=',
+      field('value', $._expression),
     ),
 
     // ---------------------------------------------------------------
@@ -436,14 +479,20 @@ module.exports = grammar({
         $.string_content,
         $.escape_sequence,
         $.interpolation,
+        $._dollar_literal,
       )),
       '"',
     ),
 
     string_content: _ => token.immediate(prec(1, /[^"\\$]+/)),
 
-    // Match a literal $ not followed by {
-    _dollar_literal: _ => token.immediate(prec(0, /\$[^{]/)),
+    // A literal `$` inside a string. Tree-sitter prefers the longer
+    // `${` interpolation token (also token.immediate) over this one
+    // when both could match, so interpolation still wins. The shorter
+    // form fires only when the `$` is not followed by `{` — letting
+    // strings like `"^[0-9]+$"` parse without eating the closing
+    // quote.
+    _dollar_literal: _ => token.immediate('$'),
 
     escape_sequence: _ => token.immediate(seq(
       '\\',

@@ -232,3 +232,168 @@ import "codeberg.org/scampi-dev/modules/unifi"
   (import_declaration
     (string
       (string_content))))
+
+================================================================================
+Attribute type declaration (marker)
+================================================================================
+
+module main
+
+type @nonempty {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (attribute_type_declaration
+    (identifier)
+    (attribute_type_body)))
+
+================================================================================
+Attribute type declaration with fields
+================================================================================
+
+module main
+
+type @pattern {
+  regex: string
+}
+
+type @path {
+  absolute:   bool = false
+  must_exist: bool = false
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (attribute_type_declaration
+    (identifier)
+    (attribute_type_body
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))))
+  (attribute_type_declaration
+    (identifier)
+    (attribute_type_body
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))
+        (false))
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))
+        (false)))))
+
+================================================================================
+Decl with prefix attributes on params
+================================================================================
+
+module main
+
+decl posix.copy(
+  src:  Source,
+  @std.path(absolute=true) dest: string,
+  @std.nonempty owner: string?,
+  @std.filemode perm: string = "0644",
+) Step
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (decl_declaration
+    (dotted_name
+      (identifier)
+      (identifier))
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (attribute
+          (dotted_name
+            (identifier)
+            (identifier))
+          (attribute_arguments
+            (attribute_named_argument
+              name: (identifier)
+              value: (true))))
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (attribute
+          (dotted_name
+            (identifier)
+            (identifier)))
+        (identifier)
+        (optional_type
+          (named_type
+            (dotted_name
+              (identifier)))))
+      (field_definition
+        (attribute
+          (dotted_name
+            (identifier)
+            (identifier)))
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))
+        (string
+          (string_content))))
+    (named_type
+      (dotted_name
+        (identifier)))))
+
+================================================================================
+Attribute with regex containing dollar
+================================================================================
+
+module main
+
+decl posix.firewall(
+  @std.pattern(regex="^[0-9]+$") port: string,
+) Step
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (decl_declaration
+    (dotted_name
+      (identifier)
+      (identifier))
+    (parameter_list
+      (field_definition
+        (attribute
+          (dotted_name
+            (identifier)
+            (identifier))
+          (attribute_arguments
+            (attribute_named_argument
+              name: (identifier)
+              value: (string
+                (string_content)))))
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))))

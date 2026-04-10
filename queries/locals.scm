@@ -20,6 +20,9 @@
 (type_declaration
   (identifier) @definition.type)
 
+(attribute_type_declaration
+  (identifier) @definition.type)
+
 (enum_declaration
   (identifier) @definition.type)
 
