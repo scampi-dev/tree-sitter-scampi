@@ -453,13 +453,13 @@ let c = none
     (none)))
 
 ================================================================================
-Comments
+Line comments
 ================================================================================
 
 module main
 
-# This is a comment
-let x = 42  # trailing comment
+// This is a comment
+let x = 42  // trailing comment
 
 --------------------------------------------------------------------------------
 
@@ -471,6 +471,46 @@ let x = 42  # trailing comment
     (identifier)
     (integer))
   (comment))
+
+================================================================================
+Block comments inline
+================================================================================
+
+module main
+
+let x = /* inline */ 42
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (comment)
+    (integer)))
+
+================================================================================
+Block comments multiline
+================================================================================
+
+module main
+
+/*
+ * multi-line
+ * block comment
+ */
+let x = 42
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (comment)
+  (let_declaration
+    (identifier)
+    (integer)))
 
 ================================================================================
 Binary expressions with precedence

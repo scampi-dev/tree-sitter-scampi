@@ -48,8 +48,21 @@ module.exports = grammar({
     // ---------------------------------------------------------------
     // Comments
     // ---------------------------------------------------------------
+    //
+    // Line comments:  // ...
+    // Block comments: /* ... */
+    //
+    // Note: tree-sitter regex cannot express nested block comments.
+    // The lang lexer handles nesting correctly; the grammar here uses
+    // the classic non-nesting C block comment pattern, which is fine
+    // for highlighting in 99% of cases. A user nesting block comments
+    // will see the inner */ visually close the outer block in the
+    // editor, but the file still parses correctly via the real lexer.
 
-    comment: _ => token(seq('#', /.*/)),
+    comment: _ => token(choice(
+      seq('//', /.*/),
+      seq('/*', /[^*]*\*+([^/*][^*]*\*+)*/, '/'),
+    )),
 
     // ---------------------------------------------------------------
     // Declarations

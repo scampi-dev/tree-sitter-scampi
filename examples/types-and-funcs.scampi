@@ -3,7 +3,7 @@ module main
 import "std"
 import "std/posix"
 
-# Type declarations
+// Type declarations
 type User {
   name:   string
   groups: list[string] = []
@@ -13,32 +13,32 @@ type User {
 
 enum PkgState { present, absent, latest }
 
-# Function with return type
+// Function with return type
 func base_packages(extra: list[string] = []) list[string] {
   let base = ["curl", "htop", "vim", "tmux"]
   return base + extra
 }
 
-# User-defined decl
+// User-defined decl
 decl create_user(name: string, shell: string = "/bin/bash") std.Step {
   posix.user { name = self.name, shell = self.shell }
 }
 
-# Data
+// Data
 let users = [
   User { name = "alice", groups = ["sudo", "docker"], admin = true },
   User { name = "bob", groups = ["docker"], shell = "/bin/zsh" },
   User { name = "charlie" },
 ]
 
-# Comprehensions
+// Comprehensions
 let admins = [u.name for u in users if u.admin]
 let shell_map = {u.name: u.shell for u in users}
 
-# Conditional expression
+// Conditional expression
 let extra = if len(admins) > 0 { ["sudo"] } else { [] }
 
-# String interpolation
+// String interpolation
 let version = "1.2.3"
 let url = "https://example.com/v${version}/app.tar.gz"
 
