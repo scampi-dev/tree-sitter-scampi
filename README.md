@@ -1,7 +1,7 @@
 # tree-sitter-scampi
 
 > [!NOTE]
-> Part of the [scampi](https://scampi.dev) project. Development happens on [Codeberg](https://codeberg.org/scampi-dev/tree-sitter-scampi) — please file issues and pull requests there. The GitHub mirror exists for `:TSInstall` compatibility.
+> Part of the [scampi](https://scampi.dev) project. Development happens on [Codeberg](https://codeberg.org/scampi-dev/tree-sitter-scampi) — please file issues and pull requests there. The GitHub mirror exists for editor tooling compatibility.
 
 Tree-sitter grammar for [scampi](https://scampi.dev) configuration files (`.scampi`).
 
@@ -9,26 +9,9 @@ Standalone grammar — no external scanner, no dependencies on other parsers.
 
 ## Neovim
 
-Not yet upstream in nvim-treesitter. Register the parser manually:
+[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) upstream is archived. Until the ecosystem settles on a successor, the supported way to use this grammar in Neovim is via the [pskry/nvim-treesitter](https://github.com/pskry/nvim-treesitter/tree/add-scampi-parser) fork, which has scampi pre-registered.
 
-```lua
-vim.filetype.add({ extension = { scampi = "scampi" } })
-
-vim.api.nvim_create_autocmd("User", {
-  pattern = "TSUpdate",
-  callback = function()
-    require("nvim-treesitter.parsers").scampi = {
-      install_info = {
-        url = "https://github.com/scampi-dev/tree-sitter-scampi",
-      },
-    }
-  end,
-})
-```
-
-Then run `:TSInstall scampi`.
-
-Alternatively, use the [pskry/nvim-treesitter](https://github.com/pskry/nvim-treesitter/tree/add-scampi-parser) fork which has scampi pre-registered.
+Point your plugin manager at the fork and run `:TSInstall scampi`.
 
 For the LSP server (scampls), see the [editor setup docs](https://scampi.dev/docs/lsp/).
 
