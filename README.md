@@ -1,5 +1,8 @@
 # tree-sitter-scampi
 
+> [!NOTE]
+> Part of the [scampi](https://scampi.dev) project. Development happens on [Codeberg](https://codeberg.org/scampi-dev/tree-sitter-scampi) — please file issues and pull requests there. The GitHub mirror exists for `:TSInstall` compatibility.
+
 Tree-sitter grammar for [scampi](https://scampi.dev) configuration files (`.scampi`).
 
 Standalone grammar — no external scanner, no dependencies on other parsers.
