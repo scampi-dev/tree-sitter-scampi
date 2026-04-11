@@ -1,5 +1,7 @@
 # tree-sitter-scampi
 
+[![License](https://img.shields.io/badge/license-MIT-blue)](https://codeberg.org/scampi-dev/tree-sitter-scampi/src/branch/main/LICENSE)
+
 > [!NOTE]
 > Part of the [scampi](https://scampi.dev) project. Development happens on [Codeberg](https://codeberg.org/scampi-dev/tree-sitter-scampi) — please file issues and pull requests there. The GitHub mirror exists for editor tooling compatibility.
 
