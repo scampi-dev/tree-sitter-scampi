@@ -95,6 +95,14 @@
 (optional_type
   "?" @punctuation.special)
 
+; Struct literal type: only the LAST identifier in the dotted_name is the
+; "type" — earlier identifiers are namespaces. In `posix.firewall { ... }`,
+; `posix` is the module and `firewall` is the type. The `.` anchor
+; constrains the captured identifier to be the last child of the dotted_name.
+(struct_literal
+  type: (dotted_name
+    (identifier) @type .))
+
 ; Expressions
 (call_expression
   function: (identifier) @function.call)
@@ -110,6 +118,21 @@
 ((call_expression
   function: (identifier) @function.builtin)
  (#any-of? @function.builtin "len" "int"))
+
+; Block expressions reify a block on top of a call (e.g.
+; `std.deploy(...) { ... }`). Highlight the trailing identifier of the
+; call's target as @function.builtin so it visually distinguishes from
+; plain method calls — this is a special construct that takes both
+; arguments and a body. These queries MUST come after the @property
+; and @method.call rules so the @function.builtin capture wins.
+(block_expression
+  target: (call_expression
+    function: (selector_expression
+      field: (identifier) @function.builtin)))
+
+(block_expression
+  target: (call_expression
+    function: (identifier) @function.builtin))
 
 ; Operators
 [
