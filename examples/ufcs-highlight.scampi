@@ -1,0 +1,12 @@
+module main
+
+import "std"
+
+func double(n: int) int {
+  return n + n
+}
+
+// All three should highlight `double` / `range` as @function.call (green).
+let a = double(5)       // bare call
+let b = (5).double()    // UFCS — same function
+let c = std.range(5)    // module-qualified — also a function call
