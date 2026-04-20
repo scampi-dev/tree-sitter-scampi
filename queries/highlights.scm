@@ -2,6 +2,7 @@
 [
   "module"
   "import"
+  "pub"
   "let"
   "type"
   "enum"

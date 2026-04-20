@@ -397,3 +397,133 @@ decl posix.firewall(
     (named_type
       (dotted_name
         (identifier)))))
+
+================================================================================
+Pub type declaration
+================================================================================
+
+module main
+
+pub type Config {
+  name: string
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (type_declaration
+    (identifier)
+    (type_body
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))))
+
+================================================================================
+Pub func declaration
+================================================================================
+
+module main
+
+pub func greet(name: string) string {
+  return "hello " + name
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (func_declaration
+    (identifier)
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))
+    (block
+      (return_statement
+        (binary_expression
+          (string
+            (string_content))
+          (identifier))))))
+
+================================================================================
+Pub let declaration
+================================================================================
+
+module main
+
+pub let version = "1.0"
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (string
+      (string_content))))
+
+================================================================================
+Pub enum declaration
+================================================================================
+
+module main
+
+pub enum Color {
+  red
+  green
+  blue
+}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (enum_declaration
+    (identifier)
+    (identifier)
+    (identifier)
+    (identifier)))
+
+================================================================================
+Pub decl declaration
+================================================================================
+
+module main
+
+pub decl posix.copy(src: Source, dest: string) Step
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (decl_declaration
+    (dotted_name
+      (identifier)
+      (identifier))
+    (parameter_list
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier))))
+      (field_definition
+        (identifier)
+        (named_type
+          (dotted_name
+            (identifier)))))
+    (named_type
+      (dotted_name
+        (identifier)))))

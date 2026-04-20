@@ -82,6 +82,7 @@ module.exports = grammar({
     import_declaration: $ => seq('import', $.string),
 
     type_declaration: $ => prec.right(seq(
+      optional('pub'),
       'type',
       $.identifier,
       optional($.type_body),
@@ -111,6 +112,7 @@ module.exports = grammar({
     ),
 
     enum_declaration: $ => seq(
+      optional('pub'),
       'enum',
       $.identifier,
       '{',
@@ -119,6 +121,7 @@ module.exports = grammar({
     ),
 
     func_declaration: $ => prec.right(seq(
+      optional('pub'),
       'func',
       $.identifier,
       $.parameter_list,
@@ -127,6 +130,7 @@ module.exports = grammar({
     )),
 
     decl_declaration: $ => prec.right(seq(
+      optional('pub'),
       'decl',
       $.dotted_name,
       $.parameter_list,
@@ -135,6 +139,7 @@ module.exports = grammar({
     )),
 
     let_declaration: $ => seq(
+      optional('pub'),
       'let',
       $.identifier,
       optional(seq(':', $._type_expression)),
