@@ -1,22 +1,30 @@
 <!--
-  Thanks for your interest in contributing!
+  Hi, and thanks for taking the time to contribute to scampi!
 
-  This GitHub repository is a read-only mirror.
-  Pull requests filed here will not be reviewed.
+  Heads-up before you hit submit: this GitHub repository is a read-only
+  mirror, and PRs filed here will be auto-closed with a redirect.
 
-  Please re-open your PR at:
+  Please re-file at:
   https://codeberg.org/scampi-dev/tree-sitter-scampi
 
-  Codeberg accounts are free, no email confirmation, federation-friendly.
-  PR workflow is identical to GitHub.
+  Codeberg is a non-profit, EU-hosted Forgejo instance. Account creation
+  is free and the workflow is the same as GitHub — fork, branch, push,
+  open PR.
+
+  Sorry for the friction. Hope to see you over on Codeberg!
 -->
 
-## This is a read-only mirror
+## Hi, and thanks for taking the time to contribute to scampi!
 
-Source, issues, and pull requests live at
+Heads-up before you hit submit: this GitHub repository is a **read-only
+mirror**, and PRs filed here will be auto-closed with a redirect to
+Codeberg.
+
+Please re-file at
 **[codeberg.org/scampi-dev/tree-sitter-scampi](https://codeberg.org/scampi-dev/tree-sitter-scampi)**.
 
-PRs filed on this GitHub mirror will not be reviewed — please re-open at
-the Codeberg URL above.
-[Sign-up](https://codeberg.org/user/sign_up) is free, no email
-confirmation needed, and the workflow is the same as GitHub.
+[Codeberg](https://codeberg.org) is a non-profit, EU-hosted Forgejo
+instance. Account creation is free and the workflow is the same as
+GitHub — fork, branch, push, open PR.
+
+Sorry for the friction. Hope to see you over on Codeberg!
