@@ -1,5 +1,5 @@
 <!--
-  Hi, and thanks for sending this!
+  Hi, and thanks for opening a pull request!
 
   Pre-filling a few sections below to make review faster. Skip any that
   genuinely don't apply — "n/a" is a fine answer.

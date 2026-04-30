@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Hi, and thanks for thinking about this!
+        Hi, and thanks for sketching a feature idea!
 
         Most grammar feature requests come down to: scampi the language
         gained new syntax and we need to track it, or the existing

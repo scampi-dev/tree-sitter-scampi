@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Hi, and thanks for taking the time to file this!
+        Hi, and thanks for filing a bug report!
 
         Tree-sitter parser bugs are usually one of: refused to parse,
         produced a malformed tree, or highlight/fold/indent query
