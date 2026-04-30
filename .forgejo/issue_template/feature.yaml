@@ -1,0 +1,51 @@
+name: Feature Request
+about: Query updates, grammar tweaks, or new syntax tracking
+title: ""
+labels:
+  - Kind/Feature
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hi, and thanks for thinking about this!
+
+        Most grammar feature requests come down to: scampi the language
+        gained new syntax and we need to track it, or the existing
+        queries (highlights / folds / indents) could be richer.
+
+        Note: this grammar **tracks** scampi spec — it doesn't lead.
+        New syntax proposals belong on
+        [scampi](https://codeberg.org/scampi-dev/scampi) first.
+
+  - type: textarea
+    id: use_case
+    attributes:
+      label: What are you trying to express?
+      description: |
+        The thing the grammar / queries should distinguish or render.
+        A small `.scampi` example showing the desired vs. current
+        output is ideal.
+      render: scampi
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: |
+        Sketch of the grammar / query change. Exact rule names aren't
+        important yet.
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else?
+      description: |
+        Related scampi issue, prior discussion, examples from other
+        tree-sitter grammars.
+    validations:
+      required: false

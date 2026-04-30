@@ -1,0 +1,78 @@
+name: Bug Report
+about: The parser fails on valid scampi, or produces a wrong tree shape
+title: ""
+labels:
+  - Kind/Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hi, and thanks for taking the time to file this!
+
+        Tree-sitter parser bugs are usually one of: refused to parse,
+        produced a malformed tree, or highlight/fold/indent query
+        behaved wrong on a valid tree. The fields below help me triage.
+
+  - type: input
+    id: grammar_version
+    attributes:
+      label: Grammar revision
+      description: |
+        Git ref / commit you're on (e.g. `git rev-parse --short HEAD`),
+        or the version your editor pinned via `nvim-treesitter` /
+        equivalent.
+      placeholder: e.g. 10251b2
+    validations:
+      required: false
+
+  - type: input
+    id: editor
+    attributes:
+      label: Editor + tree-sitter runtime
+      description: |
+        e.g. "Neovim 0.10 with nvim-treesitter HEAD", "Helix 25.01",
+        "tree-sitter CLI 0.24.4 standalone".
+    validations:
+      required: true
+
+  - type: textarea
+    id: snippet
+    attributes:
+      label: Minimal scampi snippet
+      description: |
+        The smallest input that reproduces the issue. Inline preferred —
+        not a link to a private repo.
+      render: scampi
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected tree / behaviour
+      description: |
+        The shape you expect. For highlight bugs, "this token should
+        be `@keyword` not `@function`" is fine.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual tree / behaviour
+      description: |
+        What you see. `tree-sitter parse <file>` output is gold for
+        parser bugs. Screenshots fine for highlight bugs.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else?
+      description: |
+        Workarounds, related issues, hunches.
+    validations:
+      required: false
