@@ -152,3 +152,114 @@ let url = "https://example.com/v${pkg.version}/app.tar.gz"
           (identifier)
           (identifier)))
       (string_content))))
+
+================================================================================
+Multi-line backtick string
+================================================================================
+
+module main
+
+let body = `
+  line one
+  line two
+  `
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (multiline_string
+      (multiline_string_content))))
+
+================================================================================
+Multi-line backtick string with interpolation
+================================================================================
+
+module main
+
+let resolv = `
+  search ${realm}
+  nameserver 1.1.1.1
+  `
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (multiline_string
+      (multiline_string_content)
+      (interpolation
+        (identifier))
+      (multiline_string_content))))
+
+================================================================================
+Multi-line backtick string with literal double quotes
+================================================================================
+
+module main
+
+let json = `{"data": [1, 2, 3]}`
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (multiline_string
+      (multiline_string_content))))
+
+================================================================================
+Multi-line backtick string with escaped backtick and dollar
+================================================================================
+
+module main
+
+let s = `tick \` and dollar \${ no interp`
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (multiline_string
+      (multiline_string_content)
+      (multiline_escape_sequence)
+      (multiline_string_content)
+      (multiline_escape_sequence)
+      (multiline_string_content))))
+
+================================================================================
+Multi-line backtick string with bash line continuation
+================================================================================
+
+module main
+
+let body = `
+  cmd1 \
+    --flag value \
+  cmd2
+  `
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (module_declaration
+    (identifier))
+  (let_declaration
+    (identifier)
+    (multiline_string
+      (multiline_string_content)
+      (multiline_escape_sequence)
+      (multiline_string_content)
+      (multiline_escape_sequence)
+      (multiline_string_content))))

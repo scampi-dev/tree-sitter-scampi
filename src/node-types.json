@@ -82,6 +82,10 @@
         "named": true
       },
       {
+        "type": "multiline_string",
+        "named": true
+      },
+      {
         "type": "none",
         "named": true
       },
@@ -635,6 +639,10 @@
           "named": true
         },
         {
+          "type": "multiline_string",
+          "named": true
+        },
+        {
           "type": "none",
           "named": true
         },
@@ -762,6 +770,10 @@
             "named": true
           },
           {
+            "type": "multiline_string",
+            "named": true
+          },
+          {
             "type": "none",
             "named": true
           },
@@ -849,6 +861,10 @@
         },
         {
           "type": "list_literal",
+          "named": true
+        },
+        {
+          "type": "multiline_string",
           "named": true
         },
         {
@@ -1151,6 +1167,29 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "multiline_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "interpolation",
+          "named": true
+        },
+        {
+          "type": "multiline_escape_sequence",
+          "named": true
+        },
+        {
+          "type": "multiline_string_content",
           "named": true
         }
       ]
@@ -1515,6 +1554,10 @@
     "named": false
   },
   {
+    "type": "`",
+    "named": false
+  },
+  {
     "type": "comment",
     "named": true,
     "extra": true
@@ -1574,6 +1617,14 @@
   {
     "type": "module",
     "named": false
+  },
+  {
+    "type": "multiline_escape_sequence",
+    "named": true
+  },
+  {
+    "type": "multiline_string_content",
+    "named": true
   },
   {
     "type": "none",

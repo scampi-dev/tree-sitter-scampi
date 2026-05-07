@@ -274,6 +274,7 @@ module.exports = grammar({
       $.identifier,
       $.integer,
       $.string,
+      $.multiline_string,
       $.true,
       $.false,
       $.none,
@@ -292,6 +293,7 @@ module.exports = grammar({
       $.identifier,
       $.integer,
       $.string,
+      $.multiline_string,
       $.true,
       $.false,
       $.none,
@@ -502,6 +504,36 @@ module.exports = grammar({
     escape_sequence: _ => token.immediate(seq(
       '\\',
       choice('n', 't', 'r', '\\', '"', '$', '0'),
+    )),
+
+    // Backtick-delimited multi-line strings. Newlines are literal,
+    // interior `"` is literal (no escape needed), and the only
+    // recognized escapes are `\\`, `` \` ``, and `\$` — every other
+    // `\X` is two literal characters. Same `${...}` interpolation
+    // shape as regular strings.
+    multiline_string: $ => seq(
+      '`',
+      repeat(choice(
+        $.multiline_string_content,
+        $.multiline_escape_sequence,
+        $.interpolation,
+        $._multiline_dollar_literal,
+      )),
+      '`',
+    ),
+
+    multiline_string_content: _ => token.immediate(prec(1, /[^`\\$]+/)),
+
+    _multiline_dollar_literal: _ => token.immediate('$'),
+
+    // In a backtick string the lexer recognizes only `\\`, `` \` ``,
+    // and `\$` as semantic escapes — the rest stays literal. The
+    // grammar accepts `\<any>` (including `\<newline>` for bash line
+    // continuations) so highlighting works uniformly; the semantic
+    // distinction is the eval pass's job.
+    multiline_escape_sequence: _ => token.immediate(seq(
+      '\\',
+      /[\s\S]/,
     )),
 
     interpolation: $ => seq(

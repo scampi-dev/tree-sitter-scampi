@@ -9,4 +9,5 @@
   (struct_literal)
   (enum_declaration)
   (string)
+  (multiline_string)
 ] @fold

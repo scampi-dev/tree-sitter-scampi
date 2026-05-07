@@ -34,7 +34,9 @@
 (self) @variable.builtin
 (integer) @number
 (string) @string
+(multiline_string) @string
 (escape_sequence) @string.escape
+(multiline_escape_sequence) @string.escape
 (interpolation
   "${" @punctuation.special
   "}" @punctuation.special)
